@@ -1,4 +1,4 @@
 
 
-bind C-@:clear-screen
+C-@:clear-screen
 
