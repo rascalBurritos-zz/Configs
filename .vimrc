@@ -35,6 +35,7 @@ set smartindent
 
 "annoying timeout for esc
 :set noesckeys
+set timeoutlen=1000 ttimeoutlen=0
 
 set background=dark
 let g:airline_powerline_fonts = 1
