@@ -25,6 +25,12 @@ alias grep="grep --color"
 alias pd=pushd
 alias xc="xclip -selection clipboard"
 alias xco="xclip -selection clipboard -o"
+alias ranger="env TERM=xterm ranger"
+alias agcc="arm-none-eabi-gcc"
+alias ag++="arm-none-eabi-g++"
+alias agdb="arm-none-eabi-gdb"
+alias aobjdump="arm-none-eabi-objdump"
+alias aobjcopy="arm-none-eabi-objcopy"
 
 FCEDIT=vim
 

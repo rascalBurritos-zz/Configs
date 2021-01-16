@@ -1,4 +1,5 @@
 
 
-C-@:clear-screen
+"\C-@":clear-screen
+"\C-u":kill-whole-line
 
