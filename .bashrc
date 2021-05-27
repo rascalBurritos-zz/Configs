@@ -31,6 +31,19 @@ alias ag++="arm-none-eabi-g++"
 alias agdb="arm-none-eabi-gdb"
 alias aobjdump="arm-none-eabi-objdump"
 alias aobjcopy="arm-none-eabi-objcopy"
+alias less="less --mouse"
+alias man="man --pager=\"less --mouse --wheel-lines=3\""
+alias python="python3" 
+alias whichd='echo $XDG_DATA_DIRS | tr : "\n" | xargs -I _ find _ -name "*.desktop" | grep '
+
+
+
+#diables the suspend terminal commands
+if [[ -t 0 && $- = *i* ]]
+then
+    stty -ixon
+fi 
+
 
 FCEDIT=vim
 
@@ -38,3 +51,8 @@ FCEDIT=vim
 
 
 
+source "$HOME/.cargo/env"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

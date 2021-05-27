@@ -12,8 +12,15 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 autocmd vimenter * ++nested colorscheme gruvbox
 
+"all mode maps
+noremap <C-L> <C-W><C-L>
+noremap <C-s> :w<Enter>
 
-map <C-L> <C-W><C-L>
+"visual remaps
+vnoremap <C-c> "+y
+vnoremap <C-p> "+p
+
+set mouse=a
 
 " Line numbers
 set relativenumber
