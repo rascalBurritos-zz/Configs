@@ -1,0 +1,199 @@
+/**
+ * ROFI Color theme
+ * User: Stephen
+ * Copyright: Stephen
+ */
+
+/* global settings and color variables */
+* {
+   
+   /* maincolor:        #ed8712; */
+   /* highlight:        bold #ed8712; */
+   /* urgentcolor:      #e53714; */
+
+   /* fgwhite:          #cfcfcf; */
+   /* blackdarkest:     #1d1d1dF0; */
+   /* blackwidget:      #262626; */
+   /* blackentry:       #292929; */
+   /* blackselect:      #303030; */
+   /* darkgray:         #848484; */
+   /* scrollbarcolor:   #505050; */
+
+    /* orange */
+   maincolor:        rgba(237,135,18,1);
+   /* highlight:        bold rgba(237,135,18,1); */
+   highlight:        rgba(142,142,142,1);
+   transparent:      rgba(0,0,0,0);
+
+   urgentcolor:      rgba(229,55,20,1);
+
+   fgwhite:          rgba(207,207,207,1);
+   /* main background */
+   blackdarkest:     rgba(29,29,29,0.8);
+
+   /* label for input box */
+   blackwidget:      rgba(38,38,38,0);
+   /* background for entries */
+   blackentry:       rgba(41,41,41,0);
+   /* background for selected entry */
+   blackselect:      rgba(48,48,48,1);
+   /* mode switcher labels */
+   darkgray:         rgba(132,132,132,0);
+   scrollbarcolor:   rgba(80,80,80,0);
+   /* font: "DejaVu Sans Mono Regular 14"; */
+   font: "Noto Sans Regular 18";
+   background-color: @blackdarkest;
+}
+
+window {
+   location: center;
+   anchor: center;
+   /* y-offset: 20%; */
+   /* padding: 100; */
+   background-color: @blackestdark;
+   transparency: "real";
+}
+
+mainbox {
+   background-color: @transparent;
+   /* top right bottom left */
+   /* margin: 35% 20% 10% 35%; */
+   margin: 35% 20% 10% 20%;
+   spacing:0px;
+   /* margin:auto; */
+   /* children: [inputbar, message, mode-switcher, listview]; */
+   children: [inputbar, message, listview];
+}
+
+message {
+   padding: 6px 10px;
+   background-color:@blackwidget;
+}
+overlay {
+   background-color:#FF0000;
+}
+
+
+textbox {
+   text-color:@darkgray;
+   background-color:@blackwidget;
+}
+
+listview {
+   fixed-height: false;
+   dynamic: true;
+   scrollbar: true;
+   /* lines: 5; */
+   spacing: 0px;
+   padding: 1px 0px 0px 0px;
+   margin: 0px 0px 1px 0px;
+   background-color: @transparent;
+}
+
+element {
+   padding: 2px 15px;
+    background-color: #FF0000;
+}
+
+element-text{
+    background-color: #FF0000;
+}
+
+element-icon{
+    background-color: #FF0000;
+}
+
+
+element normal.normal {
+   padding: 0px 15px;
+   background-color: @blackentry;
+   text-color: @fgwhite;
+}
+
+element normal.urgent {
+   background-color: @blackentry;
+   text-color: @urgentcolor;
+}
+
+element normal.active {
+   background-color: @blackentry;
+   text-color: @maincolor;
+}
+
+element selected.normal {
+    background-color: @blackselect;
+    text-color:       @fgwhite;
+}
+
+element selected.urgent {
+    background-color: @urgentcolor;
+    text-color:       @blackdarkest;
+}
+
+element selected.active {
+    background-color: @maincolor;
+    text-color:       @blackdarkest;
+}
+
+element alternate.normal {
+    background-color: @blackentry;
+    text-color:       @fgwhite;
+}
+
+element alternate.urgent {
+    background-color: @blackentry;
+    text-color:       @urgentcolor;
+}
+
+element alternate.active {
+    background-color: @blackentry;
+    text-color:       @maincolor;
+}
+
+scrollbar {
+   background-color: @blackwidget;
+   handle-color: @darkgray;
+   handle-width: 15px;
+}
+
+mode-switcher {
+   background-color: @blackwidget;
+}
+
+button {
+   background-color: @blackwidget;
+   text-color:       @darkgray;
+}
+
+button selected {
+    text-color:       @maincolor;
+}
+
+inputbar {
+   background-color: @transparent;
+   /* top right bottom left */
+   margin : 0px 0px 10px 0px;
+   spacing: 0px;
+   children:[entry];
+}
+
+prompt {
+   padding:6px 9px;
+   background-color: @maincolor;
+   text-color:@blackwidget;
+}
+
+entry {
+   padding:6px 10px;
+   background-color:@blackwidget;
+   text-color:@fgwhite;
+}
+
+case-indicator {
+   /* enabled :false; */
+   padding:6px 10px;
+   text-color:@maincolor;
+   background-color:@blackwidget;
+}
+/* vim:ft=css
+

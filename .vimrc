@@ -39,6 +39,9 @@ set tabstop=4
 set shiftwidth=4
 set smartindent
 
+" disable swap files
+set noswapfile
+
 
 "annoying timeout for esc
 :set noesckeys

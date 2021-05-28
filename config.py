@@ -2,19 +2,27 @@
 
 from typing import List  # noqa: F401
 
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import subprocess
 import json
 
-subprocess.Popen(["picom"])
-subprocess.Popen(["nvidia-settings","--load-config-only"])
+@hook.subscribe.startup_once
+def startupOnce():
+    subprocess.Popen(["picom"])
+    subprocess.Popen(["nvidia-settings","--load-config-only"])
+    subprocess.Popen(["nm-applet"])
+
+# @hook.subscribe.startup
+# def startupAlways():
+#     pass
 
 SCREEN_RIGHT_INDEX =1
 SCREEN_LEFT_INDEX = 2
 SCREEN_MID_INDEX = 0
+OPEN_WEATHER_API_KEY = "f14bf162d1b623670ba838b64617249d"
 
 SCREEN_LEFTOF = {
         SCREEN_RIGHT_INDEX:SCREEN_MID_INDEX,
@@ -129,6 +137,7 @@ def moveRight(qtile):
         currentLayout.cmd_shuffle_right()
         return
 
+rofi = "rofi -show combi" 
 keys = [
     # Switch between windows
     # Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -153,15 +162,8 @@ keys = [
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(),
         desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(),
-        desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(),
-        desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
+    Key([mod, "control"], "l", lazy.layout.grow_right()),
+        
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
@@ -174,11 +176,14 @@ keys = [
 
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "e", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn("rofi -combi-modi window,drun,ssh -theme solarized -font \"hack 10\" -show combi"
-        ),
-        desc="Spawn a command using a prompt widget"),
+    Key([mod], "r", lazy.spawn(rofi),desc="Spawn a command using a prompt widget"),
+    Key([mod], "space", lazy.spawn(rofi),desc="Spawn a command using a prompt widget"),
 
     Key([mod], "b", lazy.spawn("gtk-launch google-chrome.desktop"), desc="Launch Chrome"),
+    Key(["control", "shift"], "KP_Multiply", lazy.spawn("/home/arizona/Documents/Bash\ Scripts/audio_switcher.sh Speakers"), desc="Switch Audio Output"),
+    Key(["control", "shift"], "KP_Subtract", lazy.spawn("/home/arizona/Documents/Bash\ Scripts/audio_switcher.sh Headphones"), desc="Switch Audio Output"),
+    Key([mod], "b", lazy.spawn("gtk-launch google-chrome.desktop"), desc="Launch Chrome"),
+
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -213,31 +218,64 @@ for i in groups:
     ])
 
 
+layout_theme = {
+    "border_width": 2,
+    "border_focus": "3b4252",
+    "border_normal": "3b4252",
+    "font": "Noto Sans",
+}
+
+
 layouts = [
-    layout.Columns(border_focus_stack='#d75f5f'),
-    # layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    layout.Columns(**layout_theme),
 ]
 
+colors = {
+         "background":"#2e3440" ,
+         "foreground":"#d8dee9",
+         "lighter":"#3b4252", 
+         "red":"#bf616a",
+         "green":"#a3be8c",
+         "yellow":"#ebcb8b",
+         "blue":"#81a1c1",
+         "magenta":"#b48ead",
+         "cyan":"#88c0d0",
+         "white":"#e5e9f0",
+         "grey":"#4c566a",
+         "orange":"#d08770",
+         "cyan":"#8fbcbb",  
+         "blue":"#5e81ac",
+         "dark-background":"#242831",  
+}
+ 
+
 widget_defaults = dict(
-    font='sans',
-    fontsize=14,
+    font='Noto Sans',
+    fontsize=18,
     padding=3,
+    background="131725"
 )
 extension_defaults = widget_defaults.copy()
 
-def myScreen(): 
+def myScreen():
     return Screen(
+            top=bar.Bar([
+                    widget.OpenWeather(app_key=OPEN_WEATHER_API_KEY,
+                        coordinates={
+                            "latitude":"35.0519296",
+                            "longitude":"-101.92158719999999"
+                            },
+                        metric=False,
+                        format='{main_temp} °{units_temperature} {humidity}%',
+                        ),
+                    widget.Spacer(),
+                    widget.Clock(format='%a %b %-d,  %-I:%M %p'),
+                    widget.Spacer(),
+                    widget.Systray(),
+                    # widget.Mpris2(objname="org.mpris.MediaPlayer2.spotify",max_chars=20),
+                ],
+                size=30,
+                ),
             bottom=bar.Bar(
                 [
                     widget.AGroupBox(),
@@ -250,11 +288,8 @@ def myScreen():
                         },
                         name_transform=lambda name: name.upper(),
                     ),
-                    widget.Systray(),
-                    widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                    widget.QuickExit(),
                 ],
-                24,
+                size=24,
             ),
             wallpaper="/home/arizona/Documents/Bash Scripts/auto-wallpaper/wallpaper.jpg",
             wallpaper_mode="stretch"
@@ -275,7 +310,7 @@ dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
-cursor_warp = True
+cursor_warp = False
 floating_layout = layout.Floating(float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.
     *layout.Floating.default_float_rules,
